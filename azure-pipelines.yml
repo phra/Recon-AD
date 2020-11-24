@@ -1,0 +1,39 @@
+trigger:
+- build
+
+pool:
+    vmImage: 'vs2017-win2016' # 'windows-latest'
+
+steps:
+# MSBuild
+# Build with MSBuild
+- task: MSBuild@1
+  inputs:
+    solution: '**/*.sln' 
+    #msbuildLocationMethod: 'version' # Optional. Options: version, location
+    msbuildVersion: '15.0' # 'latest' # Optional. Options: latest, 16.0, 15.0, 14.0, 12.0, 4.0
+    msbuildArchitecture: 'x64' # Optional. Options: x86, x64
+    #msbuildLocation: # Optional
+    platform: 'x64' # Optional
+    configuration: 'release' # Optional
+    #msbuildArguments: # Optional
+    #clean: false # Optional
+    #maximumCpuCount: false # Optional
+    #restoreNugetPackages: false # Optional
+    #logProjectEvents: false # Optional
+    #createLogFile: false # Optional
+    #logFileVerbosity: 'normal' # Optional. Options: quiet, minimal, normal, detailed, diagnostic
+- publish: $(System.DefaultWorkingDirectory)/Src/Recon-AD-AllLocalGroups/x64/Release/Recon-AD-AllLocalGroups.dll
+  artifact: Recon-AD-AllLocalGroups64
+- publish: $(System.DefaultWorkingDirectory)/Src/Recon-AD-Computers/x64/Release/Recon-AD-Computers.dll
+  artifact: Recon-AD-Computers64
+- publish: $(System.DefaultWorkingDirectory)/Src/Recon-AD-Domain/x64/Release/Recon-AD-Domain.dll
+  artifact: Recon-AD-Domain64
+- publish: $(System.DefaultWorkingDirectory)/Src/Recon-AD-Groups/x64/Release/Recon-AD-Groups.dll
+  artifact: Recon-AD-Groups64
+- publish: $(System.DefaultWorkingDirectory)/Src/Recon-AD-LocalGroups/x64/Release/Recon-AD-LocalGroups.dll
+  artifact: Recon-AD-LocalGroups64
+- publish: $(System.DefaultWorkingDirectory)/Src/Recon-AD-SPNs/x64/Release/Recon-AD-SPNs.dll
+  artifact: Recon-AD-SPNs64
+- publish: $(System.DefaultWorkingDirectory)/Src/Recon-AD-Users/x64/Release/Recon-AD-Users.dll
+  artifact: Recon-AD-Users64
